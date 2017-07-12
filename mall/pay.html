@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Turn checkboxes and radio buttons in toggle switches.">
+    <meta name="author" content="Mattia Larentis, Emanuele Marchi and Peter Stein">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>待付款订单</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/plist.css">
+</head>
+
+<body>
+<div style="display:none" id="loadinglay" class="loading-indicator-overlay"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
+<script>
+    function showLoading(){document.getElementById("loadinglay").style.display='block';}
+    function hideLoading(){$(".loading-indicator-overlay").fadeOut();}
+    showLoading();
+</script>
+    <div class="container glogray2 mycontainer">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="media">
+                    <div class="media-body">
+                        <h4 id="media-heading" class="media-heading clearfix"></h4>
+                        <p id="descr" class="glogray clearfix"></p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item glogray3 mypadding">
+                
+                    <section class="gloleft mysection1 mytext1">
+                        <i class="fa fa-fw fa-map-marker fa-2x" aria-hidden="true"></i>
+                    </section>
+                    <section class="gloleft mysection2">
+                        <span id="receivername" class="gloleft"></span><span id="receivercontact" class="gloright"></span>
+                        <br>
+                        <span id="receiveraddress" ></span>
+                    </section>
+                    <div class="clearfix"></div>
+                
+            </li>
+            <!-- <li class="list-group-item">运费<span class="myright">&yen;<em>0</em></span></li> -->
+           <!--  <li class="list-group-item  glofontsize1">合计<span class="myright glocolor">&yen;<em>500.00</em></span></li> -->
+        </ul>
+        <ul class="list-group">
+            <!-- <li class="list-group-item">短信通知收件人<span class="gloright"><input id="switch-size" type="checkbox" checked data-size="mini" data-on-color="success"  data-off-color="warning"></span></li> -->
+            <li class="list-group-item glocolor glofontsize1 glocenter">需付：&yen;<em id="pricesum"></em></li>
+        </ul>
+        <ul class="list-group glopadding2">
+            <!-- <a href="javascript:wcallpay();" class="btn btn-success btn-block">微信安全支付</a> -->
+
+<form method="post" action="http://gd.ighoss.com/weixin/gs_step1.aspx">
+    <input value="pay" name="action" type="hidden" />
+    <input name="paymoney" value="0.01" type="hidden" />
+    <input id="orderid" name="orderid" value="" type="hidden" />
+    <input name="memo" value="支付测试信息" type="hidden" />
+    <input id="url_cancel" name="url_cancel" value="" type="hidden" />
+    <input id="url_success" name="url_success" value="" type="hidden" />
+    <input id="url_fail" name="url_fail" value="" type="hidden" />
+    <input value="微信安全支付" class="btn btn-success btn-block wcallpay" type="submit" />
+    <input value="其他支付方式" class="btn btn-default btn-block" type="button" />
+</form>
+    
+        </ul>
+    </div>
+
+<!--<script src="js/bootstrap-switch.min.js"></script>
+    <script>
+    $(function(argument) {
+        $('[type="checkbox"]').bootstrapSwitch();
+    });
+
+</script> -->
+<script src="js/jquery.min.js"></script>
+<script src="js/common.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/callpay.js"></script>
+</body>
+
+</html>

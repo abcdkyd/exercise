@@ -1,0 +1,25 @@
+body{background:#F3F3F3;}
+.media .glowidth1{ padding:0; margin-right:0.5em; margin-bottom:0;}
+.myright{ float:right; }
+.tijiao{ background:#FF0042; color:#fff; }
+.tijiao:hover{color:#fff;}
+.mymargin{margin-bottom:10px;}
+.addr-inner{background:#fff; width:100%;}
+.mynumdiv2{ float:right; }
+/* done */
+.mysection1{ width:10%;  display: inline; }
+.mysection2{ width:85%;  display: inline; font-size: 0.9em; line-height: 1.5em;}
+.mysection3{ width:5%; display: inline;}
+.mytext1 i{text-align:center;}
+.mytext i{ line-height:2em; text-align:center;}
+.mytext,.mytext1{ text-align:center; }
+.mycontainer{ margin-bottom:0;}
+.media-heading{ font-size:16px; }
+.media-body .glogray { font-size:12px; }
+/* pay */
+.media-body p{ margin-bottom:5px; }
+.mypadding{ padding:10px 0; }
+.infleft{ float:left; width:68%; padding-right:2%;word-wrap: break-word;}
+.infright{ float:right;width:30%; word-wrap: break-word;}
+.infright em{word-wrap: break-word;}
+#pricesum {word-wrap: break-word;}

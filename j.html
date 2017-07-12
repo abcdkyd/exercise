@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./jquery-3.2.1.min.js"></script>
+
+    <script language="JavaScript">
+        function getJson() {
+            var url = 'http://xyjg.kaimeitz.com/Public/tk.php';
+            var json = '[{"id":1,"name":null,"sex":"\u016e","age":30,"describe":null},{"id":2,"name":null,"sex":null,"age":21,"describe":null},{"id":3,"name":null,"sex":null,"age":28,"describe":null}]';
+            $(document).ready(function(){
+
+                $.ajax({
+                    type : 'get',
+                    async : 'false',
+                    url : url,
+                    dataType : 'jsonp',
+                    success : function(callback) {
+
+                        var show_table = '';
+
+                        $.each(callback, function (name,value) {
+                            show_table += '<tr><td>'+value.id+'</td><td>'+value.name+'</td><td>'+value.sex+'</td><td>'+value.age+'</td><td>'+value.describe+'</td>';
+                            //alert(value.age);
+                        })
+
+                        show_table = '<table>'+show_table+'</table>';
+
+                        $('#show').append(show_table);
+                    }
+
+                });
+
+
+            });
+
+        }
+
+        getJson();
+    </script>
+</head>
+<body>
+    <div id="show"></div>
+</body>
+</html>
