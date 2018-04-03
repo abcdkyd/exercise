@@ -44,7 +44,8 @@ BEGIN
         minimum_money,
         highest_money,
         minimum_time_limit,
-        highest_time_limit
+        highest_time_limit,
+        repayment_method
       ) values(
         loans_record.id,
         loans_record.bank_code,
@@ -54,7 +55,8 @@ BEGIN
         loans_record.minimum_money,
         loans_record.highest_money,
         3,
-        36
+        36,
+        3
       );
       insert into product_meta(product_id, meta_key, meta_value, created_at) values(
         loans_record.id,
