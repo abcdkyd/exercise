@@ -7,6 +7,26 @@
  */
 class IdCard {
     /**
+     * 生成订单号
+     *
+     * @return string
+     */
+    private function build_order_no($userId = null)
+    {
+        mt_srand((double)microtime() * 1000000);
+
+        if (!empty($userId)) {
+            $uid = intval($userId);
+        } else {
+            $uid = mt_rand(1000, 9999);
+        }
+
+        $seed = mt_rand(100, 999);
+
+        return 'L' . $seed . substr($uid * $seed, 0, 5) . substr(microtime(true) * 10000, -8);
+    }
+
+    /**
      * 身份证校验
      */
     private function validation_filter_id_card($id_card)
