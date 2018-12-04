@@ -1,0 +1,17 @@
+{
+  "name": "exercise",
+  "description": "exercise",
+  "keywords": ["exercise", "notice"],
+  "homepage": "https://abcdkyd.github.io/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "jxie",
+      "email": "506512796@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "douyasi/identity-card": "~2.0"
+  }
+}
