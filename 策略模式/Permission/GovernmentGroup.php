@@ -8,13 +8,17 @@
 
 namespace Notadd\Product\Context\SDM\Permission;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Notadd\Product\Models\Roles;
 
 class GovernmentGroup extends PermissionAbstract
 {
     private $groupMark = 'government_group';
+
+    function __call($name, $arguments)
+    {
+        throw new \Exception('GovernmentGroup不存在该方法');
+    }
 
     function hasRouteActionPermission($current_action)
     {
@@ -68,10 +72,5 @@ class GovernmentGroup extends PermissionAbstract
         }
 
         return $data;
-    }
-
-    function setEleAccountListBuilder(Builder $builder): Builder
-    {
-        return $builder;
     }
 }

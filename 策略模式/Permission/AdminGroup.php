@@ -8,11 +8,15 @@
 
 namespace Notadd\Product\Context\SDM\Permission;
 
-
 use Illuminate\Database\Eloquent\Builder;
 
 class AdminGroup extends PermissionAbstract
 {
+    function __call($name, $arguments)
+    {
+        throw new \Exception('AdminGroup不存在该方法');
+    }
+
     function hasRouteActionPermission($current_action)
     {
         return in_array(strtoupper($this->baseUserGroup), config('product.sdm_admin_group') ?? []);

@@ -16,6 +16,11 @@ class PlatformGroup extends PermissionAbstract
 {
     private $groupMark = 'platform_group';
 
+    function __call($name, $arguments)
+    {
+        throw new \Exception('PlatformGroup不存在该方法');
+    }
+
     function hasRouteActionPermission($current_action)
     {
         $roles = $this->baseUser->getRoles()->get();

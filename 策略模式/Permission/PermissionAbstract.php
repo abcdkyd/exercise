@@ -8,7 +8,6 @@
 
 namespace Notadd\Product\Context\SDM\Permission;
 
-use Illuminate\Database\Eloquent\Builder;
 use Notadd\Foundation\Member\Member as baseMember;
 
 abstract class PermissionAbstract
@@ -27,8 +26,4 @@ abstract class PermissionAbstract
     abstract function hasRouteActionPermission($current_action);
 
     abstract function getIdentification();
-
-    abstract function handleMenuListData(array $data) :array;
-
-    abstract function setEleAccountListBuilder(Builder $builder): Builder;
 }
