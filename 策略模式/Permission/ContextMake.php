@@ -119,23 +119,8 @@ class ContextMake
         return $this->strategy->hasRouteActionPermission($current_action);
     }
 
-    /**
-     * 处理菜单数据
-     * @param $data
-     * @return mixed
-     */
-    public function handleMenuListData($data)
+    function __call($name, $arguments)
     {
-        return $this->strategy->handleMenuListData($data);
-    }
-
-    /**
-     * 新增二类户查询列表数据根据用户组筛选
-     * @param $builder
-     * @return mixed
-     */
-    public function setEleAccountListBuilder($builder)
-    {
-        return $this->strategy->setEleAccountListBuilder($builder);
+        return $this->strategy->$name(...$arguments);
     }
 }
