@@ -272,3 +272,75 @@ function exportAllFarmerCertificatePDF()
         ->withCustom(['message' => '导出失败！']);
 }
 
+// js
+$js1 = <<<js1
+microcreditExport() {
+    const self = this;
+    const select_list = fetchData(LOCALSTORAGE_KEY);
+    let lists = [];
+    self.microcreditExportLoading = true;
+    select_list.forEach(item => {
+        if (Object.prototype.toString.call(item) == '[object Array]') {
+            lists = lists.concat(item);
+        }
+    });
+
+    self.$http.get(`${window.api}/product/loans/microcredit/info/export`, {
+        responseType: 'blob',
+        params: {
+            select_list: JSON.stringify(lists),
+        }
+    }).then(file => {
+        console.log(file);
+        self.save(file.data, file.headers['content-description'] + '.zip', 'application/zip');
+        window.localStorage.removeItem(LOCALSTORAGE_KEY);
+        self.paginator(self.current_page);
+        self.$message.info('导出成功');
+        self.microcreditExportLoading = false;
+    }).catch(error => {
+        self.$message.error('导出失败[BLOB]');
+    });
+},
+js1;
+
+$js2 = <<<js2
+save(code, name, type = 'application/pdf') {
+    const URL = window.URL || window.webkitURL || window.mozURL || window.msURL
+    navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob
+    window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs
+    let blob = new Blob([code], { type: type })
+    if (window.saveAs) {
+        window.saveAs(blob, name)
+    } else if (navigator.saveBlob) {
+        navigator.saveBlob(blob, name)
+    } else {
+        let url = URL.createObjectURL(blob)
+        let link = window.document.createElement('a')
+        link.setAttribute('href', url)
+        link.setAttribute('download', name)
+        let event = window.document.createEvent('MouseEvents')
+        event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null)
+        link.dispatchEvent(event)
+    }
+},
+js2;
+
+$js3 = <<<js3
+exportInfo(order_id) {
+    const self = this;
+    self.$http.get(`${window.api}/product/loans/microcredit/info/export/${order_id}`).then(response => {
+        self.$http.get(response.data.file_path, {
+            responseType: 'blob'
+        }).then(file => {
+            self.save(file.data, file.headers['content-description'] + '.pdf');
+        }).catch(error => {
+            self.$message.error('导出失败[BLOB]');
+        });
+        self.$message.info('导出成功');
+    }).catch(error => {
+        self.$message.error('导出失败[API]');
+    });
+},
+js3;
+
+
