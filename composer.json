@@ -12,6 +12,12 @@
   ],
   "require": {
     "php": ">=7.0",
-    "douyasi/identity-card": "~2.0"
+    "douyasi/identity-card": "~2.0",
+    "box/spout": "^3.0"
+  },
+  "autoload": {
+    "files": [
+      "./Helper/helpers.php"
+    ]
   }
 }

@@ -1,16 +1,5 @@
 <?php
 
-function dd() {
-
-    echo '<pre>';
-    $args_arr = func_get_args();
-    foreach($args_arr as $arg) {
-        var_dump($arg);
-        echo "\n";
-    }
-    echo '</pre>';
-}
-
 $file = 'http://saishi.zgzcw.com/soccer/league/31/2016-2017/ssb';
 
 $data = file_get_contents($file);
