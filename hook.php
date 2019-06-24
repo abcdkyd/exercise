@@ -20,8 +20,3 @@ class blog {
         print_r($array);
     }
 }
-
-class hook {
-
-    function 
-}
