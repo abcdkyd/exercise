@@ -143,4 +143,8 @@ function exchange2()
     return;
 }
 
-exchange2();
+show_func([
+   ['exchange1', 'excel转json(box/spout库)-不支持xls'],
+   ['exchange2', 'excel转json(PhpSpreadsheet库)'],
+]);
+
