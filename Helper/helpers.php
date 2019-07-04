@@ -14,6 +14,19 @@ if (!function_exists('dd')) {
     }
 }
 
+if (!function_exists('dump')) {
+    function dump()
+    {
+        echo '<pre>';
+        $args_arr = func_get_args();
+        foreach ($args_arr as $arg) {
+            var_dump($arg);
+            echo "\n";
+        }
+        echo '</pre>';
+    }
+}
+
 if (!function_exists('show_func')) {
     function show_func($func)
     {
@@ -22,6 +35,7 @@ if (!function_exists('show_func')) {
         if (isset($_GET['func'])) {
             $func_index = array_search($_GET['func'], $func_name);
             if ($func_index !== false) {
+                echo '<p><a href="' . $_SERVER['PHP_SELF'] . '">返回</a></p>';
                 call_user_func_array($_GET['func'], $func[$func_index][2] ?? []);
             }
         } else {

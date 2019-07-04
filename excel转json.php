@@ -21,7 +21,9 @@ function exchange1()
         if ($sheet->isActive()) {
             foreach($sheet->getRowIterator() as $key => $val) {
                 if ($key == 1) continue;
-                $tmp_data[] = $val->toArray();
+                $tmp_val = $val->toArray();
+                array_shift($tmp_val);
+                $tmp_data[] = $tmp_val;
             }
             break;
         }
@@ -29,7 +31,8 @@ function exchange1()
 
     $series_col = array_values(array_filter(array_unique(array_column($tmp_data, 0))));
 
-    $json = [];
+    $list = [];
+    $data = [];
 
     foreach ($series_col as $s) {
 
@@ -40,27 +43,36 @@ function exchange1()
             if ($r_val[0] == $s) {
 
                 list($ground, $water, $fire, $wind) = array_map(function($value) {
-                    return intval(explode('-', $value)[1]);
-                }, preg_split('/,|，/', $r_val[3]));
+                    return intval(preg_replace('/[^\d]/', '', $value));
+                }, preg_split('/,|，/', $r_val[4]));
 
                 $tmp_type[] = [
                     'name' => $r_val[1],
                     'color' => $r_val[2],
                     'attribute' => compact('ground', 'water', 'fire', 'wind'),
-                    'payment' => $r_val[4],
-                    'key' => $r_val[5],
-                    'desc' => $r_val[6],
-                    'img_url' => $r_val[7],
+                    'payment' => $r_val[5],
+                    'key' => $r_val[6],
+                    'desc' => $r_val[7],
+                    'pet_img' => $r_val[8],
+                    'pet_icon' => $r_val[9],
+                    'pet_icon_unact' => $r_val[10],
+                    'pet_color_icon' => $r_val[11],
                 ];
             }
         }
 
         $tmp_series['series'] = $s;
-        $tmp_series['type'] = $tmp_type;
+        $tmp_series['child'] = $tmp_type;
 
-        array_push($json, $tmp_series);
+        array_push($list, [
+            'series' => $s,
+            'pet_icon' => $tmp_series['child'][0]['pet_icon'],
+            'pet_icon_unact' => $tmp_series['child'][0]['pet_icon_unact'],
+        ]);
+        array_push($data, $tmp_series);
     }
 
+    $json = ['list' => $list, 'data' => $data];
     $explode_file_path = '/Users/vin/Desktop/pet.json';
 
     if (file_put_contents($explode_file_path, json_encode($json, 256))) {
@@ -74,7 +86,7 @@ function exchange1()
 
 function exchange2()
 {
-    $file_path = '/Users/vin/Desktop/宠物.xls';
+    $file_path = '/Users/vin/Desktop/宠物.xlsx';
     $extension = IOFactory::identify($file_path);
     $reader = IOFactory::createReader($extension);
     $reader->setReadDataOnly(true);
@@ -96,11 +108,13 @@ function exchange2()
             array_push($tmp_row, $workSheet->getCellByColumnAndRow($col, $row)->getValue());
         }
         array_push($tmp_data, $tmp_row);
+
     }
 
     $series_col = array_values(array_filter(array_unique(array_column($tmp_data, 0))));
 
-    $json = [];
+    $list = [];
+    $data = [];
 
     foreach ($series_col as $s) {
 
@@ -111,27 +125,36 @@ function exchange2()
             if ($r_val[0] == $s) {
 
                 list($ground, $water, $fire, $wind) = array_map(function($value) {
-                    return intval(explode('-', $value)[1]);
-                }, preg_split('/,|，/', $r_val[3]));
+                    return intval(preg_replace('/[^\d]/', '', $value));
+                }, preg_split('/,|，/', $r_val[4]));
 
                 $tmp_type[] = [
                     'name' => $r_val[1],
                     'color' => $r_val[2],
                     'attribute' => compact('ground', 'water', 'fire', 'wind'),
-                    'payment' => $r_val[4],
-                    'key' => $r_val[5],
-                    'desc' => $r_val[6],
-                    'img_url' => $r_val[7],
+                    'payment' => $r_val[5],
+                    'key' => $r_val[6],
+                    'desc' => $r_val[7],
+                    'pet_img' => $r_val[8],
+                    'pet_icon' => $r_val[9],
+                    'pet_icon_unact' => $r_val[10],
+                    'pet_color_icon' => $r_val[11],
                 ];
             }
         }
 
         $tmp_series['series'] = $s;
-        $tmp_series['type'] = $tmp_type;
+        $tmp_series['child'] = $tmp_type;
 
-        array_push($json, $tmp_series);
+        array_push($list, [
+            'series' => $s,
+            'pet_icon' => $tmp_series['child'][0]['pet_icon'],
+            'pet_icon_unact' => $tmp_series['child'][0]['pet_icon_unact'],
+        ]);
+        array_push($data, $tmp_series);
     }
 
+    $json = ['list' => $list, 'data' => $data];
     $explode_file_path = '/Users/vin/Desktop/pet2.json';
 
     if (file_put_contents($explode_file_path, json_encode($json, 256))) {
