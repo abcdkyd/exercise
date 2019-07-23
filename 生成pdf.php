@@ -79,7 +79,7 @@ function exportFarmerCertificate()
 
         if (!file_exists($file_path)) {
 //                $snappy = new Pdf('/usr/local/bin/wkhtmltopdf.sh');     // 线上
-            $snappy = new Pdf('/usr/local/bin/wkhtmltopdf');      // 本地
+            $snappy = new Pdf('/usr/local/bin/wkhtmltopdf', [], ['LANG' => 'zh_CN.utf8']);      // 本地
             $snappy->generateFromHtml($content, $file_path);
         }
 
