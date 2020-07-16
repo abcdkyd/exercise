@@ -2,7 +2,7 @@
 /**
  * Curl 封装
  */
-class ModCurl
+class Curl
 {
 
     /**
