@@ -2,7 +2,7 @@
 /**
  * Curl 封装
  */
-class Curl
+class ModCurl
 {
 
     /**
@@ -28,7 +28,6 @@ class Curl
             return false;
         }
 
-        curl_setopt($ch, CURLOPT_URL, $url);
         // 是否显示头部信息
         curl_setopt($ch, CURLOPT_HEADER, false);
         // 设置是否返回信息
@@ -37,6 +36,9 @@ class Curl
         curl_setopt($ch, CURLOPT_ENCODING ,'gzip');
         // 重定向
         //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        // 设置curl超时秒数
+        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT , 120);
 
         if ($username != '') {
             curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $password);
@@ -47,22 +49,28 @@ class Curl
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         }
 
-        $method = strtolower($method);
-        if ('post' == $method) {
+        $method = strtoupper($method);
+        if ('POST' == $method) {
             curl_setopt($ch, CURLOPT_POST, true);
-            if (is_array($fields)) {
-                $sets = array();
-                foreach ($fields as $key => $val) {
-                    $sets[] = $key . '=' . urlencode($val);
-                }
-                $fields = implode('&', $sets);
-            }
+//            if (is_array($fields)) {
+//                $sets = array();
+//                foreach ($fields as $key => $val) {
+//                    $sets[] = $key . '=' . urlencode($val);
+//                }
+//                $fields = implode('&', $sets);
+//            }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-        } else 
-            if ('put' == $method) {
-                curl_setopt($ch, CURLOPT_PUT, true);
+        } elseif ('GET' == $method) {
+            if (!empty($fields)) {
+                $url .= '?' . http_build_query($fields, null, '&');
             }
-        
+        } elseif ('PUT' == $method || 'DELETE' == $method) {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+
         if (! empty($sslCerts)) {
             curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
             curl_setopt($ch, CURLOPT_SSLCERT, $sslCerts['crt']);
@@ -80,19 +88,17 @@ class Curl
         // curl_setopt($ch, CURLOPT_PROGRESS, true);
         // curl_setopt($ch, CURLOPT_VERBOSE, true);
         // curl_setopt($ch, CURLOPT_MUTE, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // 设置curl超时秒数
         if (strlen($userAgent)) {
             curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
         }
         if (is_array($httpHeaders)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
         }
-        
+
         $ret = curl_exec($ch);
         $header = curl_getinfo($ch);
 
         if (curl_errno($ch)) {
-            curl_close($ch);
             if ($returnHeader) {
                 return array(
                     'header' => $header,
@@ -108,7 +114,7 @@ class Curl
                 );
             }
         } else {
-            curl_close($ch);
+
             if (! is_string($ret) || ! strlen($ret)) {
                 return false;
             }
@@ -122,6 +128,8 @@ class Curl
                 return $ret;
             }
         }
+
+        curl_close($ch);
     }
 
     /**
@@ -187,4 +195,3 @@ class Curl
         return $ch;
     }
 }
-
