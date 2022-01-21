@@ -60,3 +60,24 @@ function MulitarraytoSingle($array){
   echo '<pre>';
 print_r(MulitarraytoSingle($data));
 echo '</pre>';
+
+// 获取最上级父级id
+$arr = [
+    // id => pid
+    1 => 0,
+    // 省略...
+    5 => 1,
+    // 省略...
+    13 => 5,
+    14 => 5,
+];
+// 建议将这数组缓存起来
+
+$arr2 = array_flip($arr);
+var_dump($arr2);
+
+$id = 13;
+while(isset($arr[$id]) && $arr[$id] != 0) {
+    $id = $arr[$id];
+}
+
